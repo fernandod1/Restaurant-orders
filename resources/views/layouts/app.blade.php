@@ -61,6 +61,7 @@
                                     <a class="dropdown-item" href="/users">Usuarios</a>
                                     <a class="dropdown-item" href="/categories">Categorías</a>
                                     <a class="dropdown-item" href="/products">Productos</a>
+                                    <a class="dropdown-item" href="/orders">Pedidos</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

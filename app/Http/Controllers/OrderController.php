@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 
 /**
- * Class UserController
+ * Class OrderController
  * @package App\Http\Controllers
  */
-class UserController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,10 +18,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate();
+        $orders = Order::paginate();
 
-        return view('user.index', compact('users'))
-            ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
+        return view('order.index', compact('orders'))
+            ->with('i', (request()->input('page', 1) - 1) * $orders->perPage());
     }
 
     /**
@@ -32,8 +31,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $user = new User();
-        return view('user.create', compact('user'));
+        $order = new Order();
+        return view('order.create', compact('order'));
     }
 
     /**
@@ -44,11 +43,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(User::$rules);
-        $request["password"] = Hash::make($request["password"]);
-        $user = User::create($request->all());
-        return redirect()->route('users.index')
-            ->with('success', 'User created successfully.');
+        request()->validate(Order::$rules);
+
+        $order = Order::create($request->all());
+
+        return redirect()->route('orders.index')
+            ->with('success', 'Order created successfully.');
     }
 
     /**
@@ -59,9 +59,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
+        $order = Order::find($id);
 
-        return view('user.show', compact('user'));
+        return view('order.show', compact('order'));
     }
 
     /**
@@ -72,26 +72,26 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $order = Order::find($id);
 
-        return view('user.edit', compact('user'));
+        return view('order.edit', compact('order'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @param  User $user
+     * @param  Order $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, Order $order)
     {
-        request()->validate(User::$rules);
+        request()->validate(Order::$rules);
 
-        $user->update($request->all());
+        $order->update($request->all());
 
-        return redirect()->route('users.index')
-            ->with('success', 'User updated successfully');
+        return redirect()->route('orders.index')
+            ->with('success', 'Order updated successfully');
     }
 
     /**
@@ -101,9 +101,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::find($id)->delete();
+        $order = Order::find($id)->delete();
 
-        return redirect()->route('users.index')
-            ->with('success', 'User deleted successfully');
+        return redirect()->route('orders.index')
+            ->with('success', 'Order deleted successfully');
     }
 }

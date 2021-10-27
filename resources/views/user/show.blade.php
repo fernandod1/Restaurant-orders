@@ -11,30 +11,44 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Show User</span>
+                            <span class="card-title">Cuenta de usuario</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('users.index') }}"> Back</a>
+                            <a class="btn btn-primary" href="{{ route('users.index') }}"> Volver</a>
                         </div>
                     </div>
 
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <strong>Name:</strong>
+                            <strong>Nombre:</strong>
                             {{ $user->name }}
                         </div>
                         <div class="form-group">
-                            <strong>Email:</strong>
+                            <strong>Correo-e:</strong>
                             {{ $user->email }}
                         </div>
                         <div class="form-group">
-                            <strong>Active:</strong>
-                            {{ $user->active }}
+                            <strong>Estado:</strong>
+                            @php
+                                if($user->active==0)
+                                    echo"Desactivada";
+                                else
+                                    echo"Activada";
+                            @endphp
                         </div>
                         <div class="form-group">
-                            <strong>Role:</strong>
-                            {{ $user->role }}
+                            <strong>Rol:</strong>
+                            @php
+                            if($user->role==0)
+                                echo"Administrador";
+                            else if($user->role==1)
+                                echo"Cajero";
+                            else if($user->role==2)
+                                echo"Cocinero";
+                            else
+                                echo"No definido";
+                            @endphp
                         </div>
 
                     </div>

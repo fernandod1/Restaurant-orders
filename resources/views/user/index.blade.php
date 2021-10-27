@@ -13,12 +13,12 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('User') }}
+                                {{ __('Usuarios') }}
                             </span>
 
                              <div class="float-right">
                                 <a href="{{ route('users.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                  {{ __('Añadir usuario') }}
                                 </a>
                               </div>
                         </div>
@@ -34,12 +34,12 @@
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
                                     <tr>
-                                        <th>No</th>
+                                        <th>ID</th>
                                         
-										<th>Name</th>
-										<th>Email</th>
-										<th>Active</th>
-										<th>Role</th>
+										<th>Nombre</th>
+										<th>Correo-e</th>
+										<th>Estado</th>
+										<th>Rol</th>
 
                                         <th></th>
                                     </tr>
@@ -51,8 +51,26 @@
                                             
 											<td>{{ $user->name }}</td>
 											<td>{{ $user->email }}</td>
-											<td>{{ $user->active }}</td>
-											<td>{{ $user->role }}</td>
+                                            <td>
+                                                @php
+                                                if($user->active==0)
+                                                    echo"Desactivada";
+                                                else
+                                                    echo"Activada";
+                                                @endphp
+                                            </td>
+                                            <td>
+                                                @php
+                                                if($user->role==0)
+                                                    echo"Administrador";
+                                                else if($user->role==1)
+                                                    echo"Cajero";
+                                                else if($user->role==2)
+                                                    echo"Cocinero";
+                                                else
+                                                    echo"No definido";
+                                                @endphp
+                                            </td>
 
                                             <td>
                                                 <form action="{{ route('users.destroy',$user->id) }}" method="POST">
