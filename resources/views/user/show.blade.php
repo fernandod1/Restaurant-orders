@@ -31,10 +31,10 @@
                         <div class="form-group">
                             <strong>Estado:</strong>
                             @php
-                                if($user->active==0)
-                                    echo"Desactivada";
-                                else
-                                    echo"Activada";
+                            if($user->active==0)
+                                echo'<span class="badge bg-danger" style="color:white">Desactivada</span>';
+                            else
+                                echo'<span class="badge bg-success" style="color:white">Activada</span>';
                             @endphp
                         </div>
                         <div class="form-group">

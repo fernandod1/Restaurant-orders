@@ -48,7 +48,7 @@ class UserController extends Controller
         $request["password"] = Hash::make($request["password"]);
         $user = User::create($request->all());
         return redirect()->route('users.index')
-            ->with('success', 'User created successfully.');
+            ->with('success', 'Usuario creado con éxito.');
     }
 
     /**
@@ -73,8 +73,9 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::find($id);
+        $op = "edit";
 
-        return view('user.edit', compact('user'));
+        return view('user.edit', compact('user', 'op'));
     }
 
     /**
@@ -87,11 +88,15 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         request()->validate(User::$rules);
-
+        if($request["password"]==""){
+            $request["password"] = $request["password_old"];
+        } else {
+            $request["password"] = Hash::make($request["password"]);
+        }
         $user->update($request->all());
 
         return redirect()->route('users.index')
-            ->with('success', 'User updated successfully');
+            ->with('success', 'Datos de usuario actualizados con éxito.');
     }
 
     /**
@@ -100,10 +105,14 @@ class UserController extends Controller
      * @throws \Exception
      */
     public function destroy($id)
-    {
-        $user = User::find($id)->delete();
-
-        return redirect()->route('users.index')
-            ->with('success', 'User deleted successfully');
+    {        
+        if ($id==1){
+            return redirect()->route('users.index')
+            ->with('error', 'No es posible eliminar al usuario ID 1 al considerarse el administrador del sistema.');
+        }else{
+            $user = User::find($id)->delete();
+            return redirect()->route('users.index')
+            ->with('success', 'Usuario eliminado con éxito.');
+        }
     }
 }

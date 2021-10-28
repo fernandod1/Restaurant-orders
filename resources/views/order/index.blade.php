@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Order
+    Pedidos
 @endsection
 
 @section('content')
@@ -13,12 +13,12 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Order') }}
+                                {{ __('Pedidos') }}
                             </span>
 
                              <div class="float-right">
                                 <a href="{{ route('orders.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
-                                  {{ __('Create New') }}
+                                  {{ __('Añadir pedido') }}
                                 </a>
                               </div>
                         </div>
@@ -30,46 +30,50 @@
                     @endif
 
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead class="thead">
-                                    <tr>
-                                        <th>No</th>
-                                        
-										<th>Id Order</th>
-										<th>Id User</th>
-										<th>Id Product</th>
-										<th>Quantity</th>
-										<th>Status</th>
 
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($orders as $order)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
-											<td>{{ $order->id_order }}</td>
-											<td>{{ $order->id_user }}</td>
-											<td>{{ $order->id_product }}</td>
-											<td>{{ $order->quantity }}</td>
-											<td>{{ $order->status }}</td>
+                        @php
+                        $old_o = '';
+                        $html_card = '';
+                        $total_cards = 0;
+                        $i=0;
+                        @endphp
+                        
+                        @foreach ($orders as $order)       
+                            @php                        
+                            if(($old_o != $order->id_order)){
+                                $html[$i] = $html_card;
+                                //$html_card = '';
+                                $id_order[$i] = $order->id_order;
+                                $status[$i] = $order->status;                                                                
+                                $old_o = $order->id_order;
+                                $total_cards++;
+                                $i++;
+                            } else{
+                                $html_card .= '<li class="list-group-item">'.$order->product->name.' '.$order->quantity.'</li>';   
+                            }
+                            @endphp               
+                        @endforeach
+       
+            
+                        @php
+                            for ($i = 0; $i < $total_cards; $i++) {
+                                echo '
+                                <div class="card" style="width: 18rem;">
+                                <div class="card-header">
+                                    ID:  '.$id_order[$i].' 
+                                    '.$status[$i].'                                     '.$i.' 
+                                </div>
+                                <ul class="list-group list-group-flush">
+                                    '.$html[$i].'   
+                                </ul>
+                                </div>
+                                ';
+                            }
+                        @endphp  
 
-                                            <td>
-                                                <form action="{{ route('orders.destroy',$order->id) }}" method="POST">
-                                                    <a class="btn btn-sm btn-primary " href="{{ route('orders.show',$order->id) }}"><i class="fa fa-fw fa-eye"></i> Show</a>
-                                                    <a class="btn btn-sm btn-success" href="{{ route('orders.edit',$order->id) }}"><i class="fa fa-fw fa-edit"></i> Edit</a>
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-fw fa-trash"></i> Delete</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                            
+
+                        
                     </div>
                 </div>
                 {!! $orders->links() !!}

@@ -11,33 +11,33 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Show Order</span>
+                            <span class="card-title">Ver pedido</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('orders.index') }}"> Back</a>
+                            <a class="btn btn-primary" href="{{ route('orders.index') }}"> Volver</a>
                         </div>
                     </div>
 
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <strong>Id Order:</strong>
+                            <strong>ID Pedido:</strong>
                             {{ $order->id_order }}
                         </div>
                         <div class="form-group">
-                            <strong>Id User:</strong>
+                            <strong>Usuario:</strong>
                             {{ $order->id_user }}
                         </div>
                         <div class="form-group">
-                            <strong>Id Product:</strong>
+                            <strong>Producto:</strong>
                             {{ $order->id_product }}
                         </div>
                         <div class="form-group">
-                            <strong>Quantity:</strong>
+                            <strong>Unidades:</strong>
                             {{ $order->quantity }}
                         </div>
                         <div class="form-group">
-                            <strong>Status:</strong>
+                            <strong>Estado:</strong>
                             {{ $order->status }}
                         </div>
 

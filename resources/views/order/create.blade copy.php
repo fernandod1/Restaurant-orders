@@ -1,26 +1,25 @@
 @extends('layouts.app')
 
 @section('template_title')
-    Modificar producto
+    Nuevo pedido
 @endsection
 
 @section('content')
     <section class="content container-fluid">
-        <div class="">
+        <div class="row">
             <div class="col-md-12">
 
                 @includeif('partials.errors')
 
                 <div class="card card-default">
                     <div class="card-header">
-                        <span class="card-title">Modificar producto</span>
+                        <span class="card-title">Nuevo pedido</span>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('products.update', $product->id) }}"  role="form" enctype="multipart/form-data">
-                            {{ method_field('PATCH') }}
+                        <form method="POST" action="{{ route('orders.store') }}"  role="form" enctype="multipart/form-data">
                             @csrf
 
-                            @include('product.form')
+                            @include('order.form')
 
                         </form>
                     </div>

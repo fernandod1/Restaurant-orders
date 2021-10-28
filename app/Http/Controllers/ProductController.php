@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 /**
@@ -32,7 +33,9 @@ class ProductController extends Controller
     public function create()
     {
         $product = new Product();
-        return view('product.create', compact('product'));
+        $category = Category::all();    
+
+        return view('product.create', compact('product','category'));
     }
 
     /**
@@ -48,7 +51,7 @@ class ProductController extends Controller
         $product = Product::create($request->all());
 
         return redirect()->route('products.index')
-            ->with('success', 'Product created successfully.');
+            ->with('success', 'Producto añadido con éxito.');
     }
 
     /**
@@ -73,8 +76,9 @@ class ProductController extends Controller
     public function edit($id)
     {
         $product = Product::find($id);
+        $category = Category::all();
 
-        return view('product.edit', compact('product'));
+        return view('product.edit', compact('product','category'));
     }
 
     /**
@@ -91,7 +95,7 @@ class ProductController extends Controller
         $product->update($request->all());
 
         return redirect()->route('products.index')
-            ->with('success', 'Product updated successfully');
+            ->with('success', 'Producto actualizado con éxito.');
     }
 
     /**
@@ -104,6 +108,6 @@ class ProductController extends Controller
         $product = Product::find($id)->delete();
 
         return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully');
+            ->with('success', 'Producto eliminado con éxito.');
     }
 }

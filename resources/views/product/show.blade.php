@@ -11,34 +11,40 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Show Product</span>
+                            <span class="card-title">Ver producto</span>
                         </div>
                         <div class="float-right">
-                            <a class="btn btn-primary" href="{{ route('products.index') }}"> Back</a>
+                            <a class="btn btn-primary" href="{{ route('products.index') }}"> Volver</a>
                         </div>
                     </div>
 
                     <div class="card-body">
                         
                         <div class="form-group">
-                            <strong>Id Category:</strong>
-                            {{ $product->id_category }}
+                            <strong>Categoría:</strong>
+                            {{ $product->category->name }}
                         </div>
                         <div class="form-group">
-                            <strong>Name:</strong>
+                            <strong>Nombre:</strong>
                             {{ $product->name }}
                         </div>
                         <div class="form-group">
-                            <strong>Description:</strong>
+                            <strong>Descripción:</strong>
                             {{ $product->description }}
                         </div>
                         <div class="form-group">
-                            <strong>Price:</strong>
+                            <strong>Precio:</strong>
                             {{ $product->price }}
                         </div>
                         <div class="form-group">
                             <strong>Stock:</strong>
-                            {{ $product->stock }}
+                            @php
+                            if($product->stock)
+                                echo '<span class="badge rounded-pill bg-success" style="color:white">Sí</span>';
+                            else {
+                                echo '<span class="badge rounded-pill bg-danger" style="color:white">No</span>';
+                            }    
+                            @endphp
                         </div>
 
                     </div>

@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 /**
  * Class OrderController
@@ -18,10 +22,11 @@ class OrderController extends Controller
      */
     public function index()
     {
+        //$orders = Order::groupBy('id_order')->paginate();
         $orders = Order::paginate();
-
         return view('order.index', compact('orders'))
             ->with('i', (request()->input('page', 1) - 1) * $orders->perPage());
+
     }
 
     /**
@@ -32,7 +37,10 @@ class OrderController extends Controller
     public function create()
     {
         $order = new Order();
-        return view('order.create', compact('order'));
+        $category = Category::all();
+        $product = Product::all();    
+        
+        return view('order.create', compact('order','category','product'));
     }
 
     /**
@@ -43,10 +51,18 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate(Order::$rules);
-
-        $order = Order::create($request->all());
-
+        $id_order = rand(100, 999);
+        foreach ($request->p as $x => $x_value){
+            if($x_value>0){
+                $order = new Order;
+                $order->id_order = $id_order;
+                $order->id_user = auth()->user()->id;
+                $order->id_product = (int)$x;
+                $order->quantity = (int)$x_value;
+                $order->status = 0;
+                $order->save();
+            }
+        }
         return redirect()->route('orders.index')
             ->with('success', 'Order created successfully.');
     }
@@ -60,7 +76,7 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-
+        //$order = Order::where('id_order', '=', $id_order);
         return view('order.show', compact('order'));
     }
 
