@@ -22,7 +22,6 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //$orders = Order::groupBy('id_order')->paginate();
         $orders = Order::paginate();
         return view('order.index', compact('orders'))
             ->with('i', (request()->input('page', 1) - 1) * $orders->perPage());
@@ -41,6 +40,16 @@ class OrderController extends Controller
         $product = Product::all();    
         
         return view('order.create', compact('order','category','product'));
+    }
+
+    public function status($id_order,$id_status)
+    {    
+        $done = DB::table('orders')
+              ->where('id_order', $id_order)
+              ->update(['status' => $id_status]);
+
+        return redirect()->route('orders.index')
+            ->with('success', 'Estado de pedido cambiado.');
     }
 
     /**
@@ -64,7 +73,7 @@ class OrderController extends Controller
             }
         }
         return redirect()->route('orders.index')
-            ->with('success', 'Order created successfully.');
+            ->with('success', 'Pedido creado con éxito.');
     }
 
     /**
@@ -76,7 +85,6 @@ class OrderController extends Controller
     public function show($id)
     {
         $order = Order::find($id);
-        //$order = Order::where('id_order', '=', $id_order);
         return view('order.show', compact('order'));
     }
 
@@ -107,7 +115,7 @@ class OrderController extends Controller
         $order->update($request->all());
 
         return redirect()->route('orders.index')
-            ->with('success', 'Order updated successfully');
+            ->with('success', 'Pedido modificado con éxito.');
     }
 
     /**
@@ -120,6 +128,6 @@ class OrderController extends Controller
         $order = Order::find($id)->delete();
 
         return redirect()->route('orders.index')
-            ->with('success', 'Order deleted successfully');
+            ->with('success', 'Pedido eliminado con éxito');
     }
 }

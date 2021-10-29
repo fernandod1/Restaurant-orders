@@ -24,6 +24,7 @@ Auth::routes();
 Route::resource('users', App\Http\Controllers\UserController::class);
 Route::resource('categories', App\Http\Controllers\CategoryController::class);
 Route::resource('products', App\Http\Controllers\ProductController::class);
+Route::get('orders/{id_order}/status/{id_status}', 'App\Http\Controllers\OrderController@status')->name('orders.status');
 Route::resource('orders', App\Http\Controllers\OrderController::class);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

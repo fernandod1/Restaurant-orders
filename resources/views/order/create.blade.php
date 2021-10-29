@@ -6,45 +6,58 @@
 
 @section('content')
     <section class="content container-fluid">
+        <form method="POST" action="{{ route('orders.store') }}"  role="form" enctype="multipart/form-data">
         <div class="row">
             <div class="col-md-12">
 
                 @includeif('partials.errors')
 
-                <div class="card card-default">
+                <div class="card">
                     <div class="card-header">
                         <span class="card-title">Nuevo pedido</span>
                     </div>
+
                     <div class="card-body">
-                        <form method="POST" action="{{ route('orders.store') }}"  role="form" enctype="multipart/form-data">
+                    <div class="card-deck">
+
                             @csrf
                             @php
                             if(isset($category)){
                                 $i=0;
                                 foreach ($category as $onec){
-                                    echo "<b>".$onec->name."</b><br>";
+                                    echo '<div class="card mb-2" style="width: 58rem;">
+                                            <div class="card-header">
+                                                '.$onec->name.'
+                                            </div>
+                                            <ul class="list-group list-group-flush">';  
                                         foreach ($product as $onep){
-                                            if($onep->id_category == $onec->id){
+                                            if($onep->id_category == $onec->id AND $onep->stock){
                                                 $i++;
-                                                echo $onep->name.' 
-                                                <input id=Input'.$i.' name="p['.$onep->id.']" type=number min=0 max=20>
-                                                <button id=buttonplus onclick="increment('.$i.')" type="button">+</button>
+                                                echo '
+                                                <li class="list-group-item">                                                 
                                                 <button id=buttonminus onclick="decrement('.$i.')" type="button">-</button>
-                                                <br>                                    
+                                                <button id=buttonplus onclick="increment('.$i.')" type="button">+</button>
+                                                <input id=Input'.$i.' name="p['.$onep->id.']" type=number min=0 max=20>
+                                                <br><b>'.
+                                                $onep->name.
+                                                '</b></li>                                 
                                                 ';
                                             }
                                         }
+                                        echo'</ul>
+                                        </div>
+                                        ';
                                 }
                             }
                             @endphp
-                            <div class="box-footer mt20">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                            </div>
-                        </form>
-                    </div>
+                    </div></div>
+                    <div align=center class="box-footer mt20">
+                        <button type="submit" class="btn btn-primary">Crear pedido</button>
+                    </div><br>
                 </div>
             </div>
         </div>
+    </form>
     </section>
 <style>
     #buttonplus{

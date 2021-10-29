@@ -31,53 +31,96 @@
 
                     <div class="card-body">
 
-                        @php
-                        $old_o = '';
-                        $html_card = '';
-                        $total_cards = 0;
-                        $i=0;
+                        @php                       
+                            $data =  [];
                         @endphp
-                        
-                        @foreach ($orders as $order)       
-                            @php                        
-                            if(($old_o != $order->id_order)){
-                                $html[$i] = $html_card;
-                                //$html_card = '';
-                                $id_order[$i] = $order->id_order;
-                                $status[$i] = $order->status;                                                                
-                                $old_o = $order->id_order;
-                                $total_cards++;
-                                $i++;
-                            } else{
-                                $html_card .= '<li class="list-group-item">'.$order->product->name.' '.$order->quantity.'</li>';   
-                            }
-                            @endphp               
+
+                        @foreach ($orders as $order)
+                            @php   
+                                if (array_key_exists($order->id_order,$data)) {
+                                    $data[$order->id_order] .= '||'.$order->id_order.'_'.$order->product->name.'_'.$order->quantity.'_'.$order->status.'_'.$order->created_at; 
+                                }else{
+                                    $data[$order->id_order] = $order->id_order.'_'.$order->product->name.'_'.$order->quantity.'_'.$order->status.'_'.$order->created_at; 
+                                }                                                 
+                            @endphp
                         @endforeach
-       
-            
-                        @php
-                            for ($i = 0; $i < $total_cards; $i++) {
-                                echo '
-                                <div class="card" style="width: 18rem;">
+
+                        <div class="card-deck">
+                        @foreach ($data as $one_data)
+                        <!--<div class="row">//-->                            
+                            @php
+                            $all_orders = explode('||',$one_data);
+                            $my_order = explode('_',$all_orders[0]);
+                            @endphp
+
+                            <div class="card mb-2" style="width: 18rem;">
                                 <div class="card-header">
-                                    ID:  '.$id_order[$i].' 
-                                    '.$status[$i].'                                     '.$i.' 
+                                    <h4>
+                                        {{ $my_order[0] }}
+                                        @php
+                                        if($my_order[3]==0){
+                                            echo'<span class="badge bg-danger" style="color:white">ABIERTO</span> ';
+                                            echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 1]).'"> <b>&#10004;</b> </a>';
+                                        }else if($my_order[3]==1){
+                                            echo'<span class="badge bg-warning text-dark">PREPARADO</span> ';
+                                            echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 2]).'"> Entregar</a>';
+                                        }else if($my_order[3]==2){
+                                            echo'<span class="badge bg-success" style="color:white">ENTREGADO</span>';
+                                        }
+                                        echo "&nbsp; <font size=2>&#128337;".time_elapsed_string($my_order[4])."</font>";
+                                        @endphp
+                                        
+                                    </h4>
+ 
+                
                                 </div>
                                 <ul class="list-group list-group-flush">
-                                    '.$html[$i].'   
+                            @php
+                                foreach ($all_orders as $val){
+                                    $d = explode('_',$val);
+                                    echo '<li class="list-group-item">'.$d[1].' <b>( '.$d[2].' )</b></li>';
+                                }
+                            @endphp
                                 </ul>
-                                </div>
-                                ';
-                            }
-                        @endphp  
+                            </div>                            
 
-                            
+                        @endforeach
+                    </div><!-- fin card deck -->
 
-                        
-                    </div>
                 </div>
                 {!! $orders->links() !!}
             </div>
         </div>
     </div>
 @endsection
+
+@php
+ function time_elapsed_string($datetime, $full = false) {
+    $now = new DateTime;
+    $ago = new DateTime($datetime);
+    $diff = $now->diff($ago);
+
+    $diff->w = floor($diff->d / 7);
+    $diff->d -= $diff->w * 7;
+
+    $string = array(
+        'y' => 'año',
+        'm' => 'mes',
+        'w' => 'sem',
+        'd' => 'd',
+        'h' => 'h',
+        'i' => 'm',
+        's' => 's',
+    );
+    foreach ($string as $k => &$v) {
+        if ($diff->$k) {
+            $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? '' : '');
+        } else {
+            unset($string[$k]);
+        }
+    }
+
+    if (!$full) $string = array_slice($string, 0, 1);
+    return $string ? implode(', ', $string) . '' : 'ahora';
+}   
+@endphp
