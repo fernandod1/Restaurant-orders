@@ -13,7 +13,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Pedidos') }}
+                                <b>{{ __('Pedidos') }}</b>
                             </span>
 
                              <div class="float-right">
@@ -46,33 +46,29 @@
                         @endforeach
 
                         <div class="card-deck">
-                        @foreach ($data as $one_data)
-                        <!--<div class="row">//-->                            
+                        @foreach ($data as $one_data)                        
                             @php
                             $all_orders = explode('||',$one_data);
                             $my_order = explode('_',$all_orders[0]);
                             @endphp
 
-                            <div class="card mb-2" style="width: 18rem;">
+                            <div class="card mb-8" style="width: 18rem;flex: 1 0 30%">
                                 <div class="card-header">
                                     <h4>
                                         {{ $my_order[0] }}
                                         @php
                                         if($my_order[3]==0){
-                                            echo'<span class="badge bg-danger" style="color:white">ABIERTO</span> ';
+                                            echo'<span class="badge rounded-pill bg-danger" style="color:white">ABIERTO</span> ';
                                             echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 1]).'"> <b>&#10004;</b> </a>';
                                         }else if($my_order[3]==1){
-                                            echo'<span class="badge bg-warning text-dark">PREPARADO</span> ';
-                                            echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 2]).'"> Entregar</a>';
+                                            echo'<span class="badge rounded-pill bg-warning text-dark">PREPARADO</span> ';
+                                            echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 2]).'"> <b>&#10004;</b> </a>';
                                         }else if($my_order[3]==2){
-                                            echo'<span class="badge bg-success" style="color:white">ENTREGADO</span>';
+                                            echo'<span class="badge rounded-pill bg-success" style="color:white">ENTREGADO</span>';
                                         }
                                         echo "&nbsp; <font size=2>&#128337;".time_elapsed_string($my_order[4])."</font>";
-                                        @endphp
-                                        
-                                    </h4>
- 
-                
+                                        @endphp                                        
+                                    </h4>                
                                 </div>
                                 <ul class="list-group list-group-flush">
                             @php
@@ -82,11 +78,10 @@
                                 }
                             @endphp
                                 </ul>
-                            </div>                            
-
+                                <br>
+                            </div>
                         @endforeach
-                    </div><!-- fin card deck -->
-
+                    </div><!-- end card deck -->
                 </div>
                 {!! $orders->links() !!}
             </div>

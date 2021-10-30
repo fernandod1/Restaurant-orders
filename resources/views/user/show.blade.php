@@ -5,13 +5,13 @@
 @endsection
 
 @section('content')
-    <section class="content container-fluid">
+    <section class="content container">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Cuenta de usuario</span>
+                            <span class="card-title"><b>Cuenta de usuario</b></span>
                         </div>
                         <div class="float-right">
                             <a class="btn btn-primary" href="{{ route('users.index') }}"> Volver</a>

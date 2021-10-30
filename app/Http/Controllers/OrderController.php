@@ -8,6 +8,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Events\MyEvent;
 
 /**
  * Class OrderController
@@ -22,7 +23,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::paginate();
+        $orders = Order::orderBy('id', 'DESC')->paginate();
         return view('order.index', compact('orders'))
             ->with('i', (request()->input('page', 1) - 1) * $orders->perPage());
 
@@ -37,8 +38,7 @@ class OrderController extends Controller
     {
         $order = new Order();
         $category = Category::all();
-        $product = Product::all();    
-        
+        $product = Product::all();        
         return view('order.create', compact('order','category','product'));
     }
 
@@ -47,7 +47,11 @@ class OrderController extends Controller
         $done = DB::table('orders')
               ->where('id_order', $id_order)
               ->update(['status' => $id_status]);
-
+        if($id_status==1)
+            $message= "Pedido ID <font color=blue><b>$id_order</b></font> listo para recoger en COCINA.";
+        if($id_status==2)
+            $message= "Pedido ID <font color=blue><b>$id_order</b></font> entregado a CLIENTE.";
+        event(new MyEvent($message));
         return redirect()->route('orders.index')
             ->with('success', 'Estado de pedido cambiado.');
     }
@@ -72,6 +76,9 @@ class OrderController extends Controller
                 $order->save();
             }
         }
+        $message= "NUEVO pedido <font color=blue><b>$id_order</b></font> creado para COCINA.";
+        event(new MyEvent($message));
+
         return redirect()->route('orders.index')
             ->with('success', 'Pedido creado con éxito.');
     }

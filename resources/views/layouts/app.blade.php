@@ -18,6 +18,34 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-kQtW33rZJAHjgefvhyyzcGF3C5TFyBQBA13V1RKPf4uH+bwyzQxZ6CmMZHmNBEfJ"
+    crossorigin="anonymous"></script>
+
+    @auth
+        <script src="https://js.pusher.com/7.0/pusher.min.js"></script>
+        <script>    
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;    
+        var pusher = new Pusher('4ed3d3e0ec2da2f78a6c', {
+            cluster: 'eu'
+        });    
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            var obj = JSON.parse(JSON.stringify(data));
+            document.getElementById("order_message").innerHTML = obj.message;
+            $("#myModal").modal('show');
+            //alert(JSON.stringify(data));
+        });
+        </script>
+    @endauth
+<style>
+.pagination {
+    justify-content: center!important;
+}
+</style>
 </head>
 <body>
     <div id="app">
@@ -83,5 +111,26 @@
             @yield('content')
         </main>
     </div>
+
+  <!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header" style="background-color: red;color: white;">
+          <h5 class="modal-title" id="exampleModalLabel"><b>Pedido</b></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p id="order_message"><b></b></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <a class="btn btn-primary" a href="/orders">Ver pedido</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- / Modal -->
 </body>
 </html>

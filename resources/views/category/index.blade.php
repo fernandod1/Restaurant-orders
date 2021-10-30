@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -13,7 +13,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Categorías') }}
+                                <b>{{ __('Categorías') }}</b>
                             </span>
 
                              <div class="float-right">
@@ -33,23 +33,17 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
-                                    <tr>
-                                        <th>Nº</th>
-                                        
+                                    <tr>                                        
 										<th>Nombre</th>
 										<th>Descripción</th>
-
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($categories as $category)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
+                                        <tr>                                            
 											<td>{{ $category->name }}</td>
 											<td>{{ $category->description }}</td>
-
                                             <td>
                                                 <form action="{{ route('categories.destroy',$category->id) }}" method="POST">
                                                     <a class="btn btn-sm btn-primary " href="{{ route('categories.show',$category->id) }}"><i class="fa fa-fw fa-eye"></i> Ver</a>

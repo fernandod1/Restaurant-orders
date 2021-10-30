@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -13,7 +13,7 @@
                         <div style="display: flex; justify-content: space-between; align-items: center;">
 
                             <span id="card_title">
-                                {{ __('Usuarios') }}
+                                <b>{{ __('Usuarios') }}</b>
                             </span>
 
                              <div class="float-right">
@@ -37,24 +37,17 @@
                         <div class="table-responsive">
                             <table class="table table-striped table-hover">
                                 <thead class="thead">
-                                    <tr>
-                                        <th>Nº</th>
-                                        
+                                    <tr>                                        
 										<th>Nombre</th>
-										<th>Correo-e</th>
 										<th>Estado</th>
 										<th>Rol</th>
-
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($users as $user)
-                                        <tr>
-                                            <td>{{ ++$i }}</td>
-                                            
+                                        <tr>                                            
 											<td>{{ $user->name }}</td>
-											<td>{{ $user->email }}</td>
                                             <td>
                                                 @php
                                                 if($user->active==0)

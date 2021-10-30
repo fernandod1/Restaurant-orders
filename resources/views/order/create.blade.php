@@ -14,7 +14,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <span class="card-title">Nuevo pedido</span>
+                        <span class="card-title"><b>Nuevo pedido</b></span>
                     </div>
 
                     <div class="card-body">
@@ -25,9 +25,9 @@
                             if(isset($category)){
                                 $i=0;
                                 foreach ($category as $onec){
-                                    echo '<div class="card mb-2" style="width: 58rem;">
+                                    echo '<div class="card" style="width: 18rem;flex: 1 0 17%">
                                             <div class="card-header">
-                                                '.$onec->name.'
+                                                <b>'.$onec->name.'</b>
                                             </div>
                                             <ul class="list-group list-group-flush">';  
                                         foreach ($product as $onep){

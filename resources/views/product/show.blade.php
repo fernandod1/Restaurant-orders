@@ -5,13 +5,13 @@
 @endsection
 
 @section('content')
-    <section class="content container-fluid">
+    <section class="content container">
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
                         <div class="float-left">
-                            <span class="card-title">Ver producto</span>
+                            <span class="card-title"><b>Ver producto</b></span>
                         </div>
                         <div class="float-right">
                             <a class="btn btn-primary" href="{{ route('products.index') }}"> Volver</a>
