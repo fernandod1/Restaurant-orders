@@ -52,6 +52,15 @@
                             @endphp
                     </div></div>
                     <div align=center class="box-footer mt20">
+                        <div class="mb-3">
+                            <label for="exampleInputName1" class="form-label"><b>Nombre de cliente</b></label>
+                            <input type="text" name="name" class="form-control" min=0 max=20 required>
+                          </div>
+                          <div class="mb-3">
+                            <label for="exampleFormControlTextarea1" class="form-label"><b>Anotaciones de pedido</b></label>
+                            <textarea class="form-control" name="notes" rows="2"></textarea>
+                          </div>
+                        
                         <button type="submit" class="btn btn-primary">Crear pedido</button>
                     </div><br>
                 </div>

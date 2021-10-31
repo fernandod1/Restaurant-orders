@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
+
+
+//use Auth;
 
 /**
  * Class UserController
@@ -12,6 +16,11 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +28,11 @@ class UserController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->role > 1){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $users = User::paginate();
-
         return view('user.index', compact('users'))
             ->with('i', (request()->input('page', 1) - 1) * $users->perPage());
     }

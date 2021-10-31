@@ -16,6 +16,10 @@ use App\Events\MyEvent;
  */
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,6 +40,10 @@ class OrderController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role > 1){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $order = new Order();
         $category = Category::all();
         $product = Product::all();        
@@ -64,12 +72,25 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $id_order = rand(100, 999);
+        if (auth()->user()->role > 1){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
+        $data = Order::latest('id')->first();
+        if($data != null){
+            $id_order = $data->id + 1;
+        }else{$id_order = 1;}
+        $id = DB::table('clients')->insertGetId(
+            [ 'id_order' => $id_order,
+              'name'     => $request['name'],
+              'notes'     => $request['notes']
+            ]
+            );   
         foreach ($request->p as $x => $x_value){
             if($x_value>0){
                 $order = new Order;
                 $order->id_order = $id_order;
-                $order->id_user = auth()->user()->id;
+                $order->id_client = $id;
                 $order->id_product = (int)$x;
                 $order->quantity = (int)$x_value;
                 $order->status = 0;
@@ -118,9 +139,7 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         request()->validate(Order::$rules);
-
         $order->update($request->all());
-
         return redirect()->route('orders.index')
             ->with('success', 'Pedido modificado con éxito.');
     }
@@ -133,7 +152,6 @@ class OrderController extends Controller
     public function destroy($id)
     {
         $order = Order::find($id)->delete();
-
         return redirect()->route('orders.index')
             ->with('success', 'Pedido eliminado con éxito');
     }

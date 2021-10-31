@@ -11,6 +11,10 @@ use Illuminate\Http\Request;
  */
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -18,8 +22,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $categories = Category::paginate();
-
         return view('category.index', compact('categories'))
             ->with('i', (request()->input('page', 1) - 1) * $categories->perPage());
     }
@@ -31,6 +38,10 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $category = new Category();
         return view('category.create', compact('category'));
     }
@@ -43,10 +54,12 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         request()->validate(Category::$rules);
-
         $category = Category::create($request->all());
-
         return redirect()->route('categories.index')
             ->with('success', 'Categoría creada con éxito.');
     }
@@ -59,8 +72,11 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
+        if (auth()->user()->role > 1){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $category = Category::find($id);
-
         return view('category.show', compact('category'));
     }
 
@@ -72,8 +88,11 @@ class CategoryController extends Controller
      */
     public function edit($id)
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $category = Category::find($id);
-
         return view('category.edit', compact('category'));
     }
 
@@ -86,8 +105,11 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         request()->validate(Category::$rules);
-
         $category->update($request->all());
 
         return redirect()->route('categories.index')
@@ -101,8 +123,11 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $category = Category::find($id)->delete();
-
         return redirect()->route('categories.index')
             ->with('success', 'Categoría elimnada con éxito.');
     }

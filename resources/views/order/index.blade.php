@@ -15,12 +15,13 @@
                             <span id="card_title">
                                 <b>{{ __('Pedidos') }}</b>
                             </span>
-
+                            @if(auth()->user()->role<2)
                              <div class="float-right">
                                 <a href="{{ route('orders.create') }}" class="btn btn-primary btn-sm float-right"  data-placement="left">
                                   {{ __('Añadir pedido') }}
                                 </a>
                               </div>
+                            @endif
                         </div>
                     </div>
                     @if ($message = Session::get('success'))
@@ -33,15 +34,17 @@
 
                         @php                       
                             $data =  [];
+                            $i = 0;
                         @endphp
 
-                        @foreach ($orders as $order)
-                            @php   
+                        @foreach ($orders as $order)                         
+                            @php     
                                 if (array_key_exists($order->id_order,$data)) {
-                                    $data[$order->id_order] .= '||'.$order->id_order.'_'.$order->product->name.'_'.$order->quantity.'_'.$order->status.'_'.$order->created_at; 
+                                    $data[$order->id_order] .= '||'.$order->id_order.'_'.$order->product->name.'_'.$order->quantity.'_'.$order->status.'_'.$order->created_at.'_'.$order->client->name.'_'.$order->client->notes;
                                 }else{
-                                    $data[$order->id_order] = $order->id_order.'_'.$order->product->name.'_'.$order->quantity.'_'.$order->status.'_'.$order->created_at; 
-                                }                                                 
+                                    $data[$order->id_order] = $order->id_order.'_'.$order->product->name.'_'.$order->quantity.'_'.$order->status.'_'.$order->created_at.'_'.$order->client->name.'_'.$order->client->notes; 
+                                }    
+                                $i++;                                             
                             @endphp
                         @endforeach
 
@@ -60,18 +63,22 @@
                                         if($my_order[3]==0){
                                             echo'<span class="badge rounded-pill bg-danger" style="color:white">ABIERTO</span> ';
                                             echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 1]).'"> <b>&#10004;</b> </a>';
+                                        }else if($my_order[3]==1 && auth()->user()->role==2){
+                                            echo'<span class="badge rounded-pill bg-warning text-dark">PREPARADO</span> ';
                                         }else if($my_order[3]==1){
                                             echo'<span class="badge rounded-pill bg-warning text-dark">PREPARADO</span> ';
                                             echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 2]).'"> <b>&#10004;</b> </a>';
                                         }else if($my_order[3]==2){
                                             echo'<span class="badge rounded-pill bg-success" style="color:white">ENTREGADO</span>';
                                         }
-                                        echo "&nbsp; <font size=2>&#128337;".time_elapsed_string($my_order[4])."</font>";
+                                        echo "&nbsp; <font size=2>&#128337;".time_elapsed_string($my_order[4])." <b>".$my_order[5]."</b></font>";
                                         @endphp                                        
                                     </h4>                
                                 </div>
                                 <ul class="list-group list-group-flush">
                             @php
+                                if($my_order[6]!='')
+                                    echo '<li class="list-group-item" style="background-color:#fffce3;"><span style="font-size:18px;font-weight: bold;color:red">&#9888;</span> '.$my_order[6].'</li>';
                                 foreach ($all_orders as $val){
                                     $d = explode('_',$val);
                                     echo '<li class="list-group-item">'.$d[1].' <b>( '.$d[2].' )</b></li>';

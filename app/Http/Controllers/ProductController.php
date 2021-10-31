@@ -12,6 +12,10 @@ use Illuminate\Http\Request;
  */
 class ProductController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -19,8 +23,11 @@ class ProductController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->role > 1){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $products = Product::paginate();
-
         return view('product.index', compact('products'))
             ->with('i', (request()->input('page', 1) - 1) * $products->perPage());
     }
@@ -32,6 +39,10 @@ class ProductController extends Controller
      */
     public function create()
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $product = new Product();
         $category = Category::all();    
 
@@ -46,10 +57,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         request()->validate(Product::$rules);
-
         $product = Product::create($request->all());
-
         return redirect()->route('products.index')
             ->with('success', 'Producto añadido con éxito.');
     }
@@ -62,6 +75,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
+        if (auth()->user()->role > 1){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $product = Product::find($id);
 
         return view('product.show', compact('product'));
@@ -75,6 +92,10 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+        if (auth()->user()->role > 1){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $product = Product::find($id);
         $category = Category::all();
 
@@ -90,10 +111,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
+        if (auth()->user()->role > 1){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         request()->validate(Product::$rules);
-
         $product->update($request->all());
-
         return redirect()->route('products.index')
             ->with('success', 'Producto actualizado con éxito.');
     }
@@ -105,8 +128,11 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
+        if (auth()->user()->role > 0){
+            return redirect()->route('home')
+            ->with('error', 'No tiene permisos para realizar esta operación.');
+        }
         $product = Product::find($id)->delete();
-
         return redirect()->route('products.index')
             ->with('success', 'Producto eliminado con éxito.');
     }

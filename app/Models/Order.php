@@ -26,7 +26,7 @@ class Order extends Model
     
     static $rules = [
 		'id_order' => 'required',
-		'id_user' => 'required',
+		'id_client' => 'required',
 		'id_product' => 'required',
 		'quantity' => 'required',
 		'status' => 'required',
@@ -39,7 +39,7 @@ class Order extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_order','id_user','id_product','quantity','status'];
+    protected $fillable = ['id_order','id_client','id_product','quantity','status'];
 
 
     /**
@@ -49,14 +49,16 @@ class Order extends Model
     {
         return $this->hasOne('App\Models\Product', 'id', 'id_product');
     }
-    
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function user()
+    public function client()
     {
-        return $this->hasOne('App\Models\User', 'id', 'id_user');
+        return $this->hasOne('App\Models\Client', 'id', 'id_client');
     }
+
+
     
 
 }
