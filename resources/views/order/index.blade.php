@@ -60,7 +60,12 @@
                                     <h4>
                                         {{ $my_order[0] }}
                                         @php
-                                        if($my_order[3]==0){
+                                        if($my_order[3]==0 && auth()->user()->role==1){
+                                            echo'<span class="badge rounded-pill bg-danger" style="color:white">ABIERTO</span> ';
+                                        }else if($my_order[3]==0 && auth()->user()->role==2){
+                                            echo'<span class="badge rounded-pill bg-danger" style="color:white">ABIERTO</span> ';
+                                            echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 1]).'"> <b>&#10004;</b> </a>';
+                                        }else if($my_order[3]==0){
                                             echo'<span class="badge rounded-pill bg-danger" style="color:white">ABIERTO</span> ';
                                             echo'<a class="btn btn-sm btn-success " href="'.route('orders.status',[$my_order[0], 1]).'"> <b>&#10004;</b> </a>';
                                         }else if($my_order[3]==1 && auth()->user()->role==2){

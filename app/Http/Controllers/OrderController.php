@@ -27,6 +27,10 @@ class OrderController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->active == 0){
+            return redirect()->route('home')
+            ->with('error', 'Su cuenta no está activada.');
+        }
         $orders = Order::orderBy('id', 'DESC')->paginate();
         return view('order.index', compact('orders'))
             ->with('i', (request()->input('page', 1) - 1) * $orders->perPage());

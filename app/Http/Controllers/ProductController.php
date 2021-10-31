@@ -23,9 +23,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        if (auth()->user()->role > 1){
+        if ((auth()->user()->role > 1) || (auth()->user()->active == 0) ){
             return redirect()->route('home')
-            ->with('error', 'No tiene permisos para realizar esta operación.');
+            ->with('error', 'Su cuenta no está activada.');
         }
         $products = Product::paginate();
         return view('product.index', compact('products'))
