@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Comelones</title>
+        <title>Aplicación online para la gestión de pedidos a cocina de un restaurante en tiempo real</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -37,9 +37,12 @@
             @endif
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
-                <img src=https://scontent.fsvq2-2.fna.fbcdn.net/v/t1.6435-9/172436324_100229258874124_5038771354793411007_n.png?_nc_cat=104&ccb=1-5&_nc_sid=973b4a&_nc_ohc=qatfHDkovGYAX-uksmY&_nc_ht=scontent.fsvq2-2.fna&oh=a99ca22e71467046852e1b9b919d629c&oe=61A286BD>
-
+                <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline"><img src=/img/logo.png></a>
+                <br>
+<h3>Aplicación web online para la gestión de pedidos a cocina de un restaurante en tiempo real.</h3>
+Comunicación en tiempo real entre cocineros y camareros sobre estado comandas.
             </div>
         </div>
+        v1.0. Desarrollado por <a href=https://www.fernando.info><span style="color:blue;">Fernando</span></a>.
     </body>
 </html>

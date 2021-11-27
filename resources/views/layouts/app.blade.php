@@ -29,7 +29,7 @@
         <script>    
         // Enable pusher logging - don't include this in production
         Pusher.logToConsole = true;    
-        var pusher = new Pusher('4ed3d3e0ec2da2f78a6c', {
+        var pusher = new Pusher('d0a91433e4996c10f454', {
             cluster: 'eu'
         });    
         var channel = pusher.subscribe('my-channel');
@@ -52,7 +52,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src=/img/comelones_logo.png height=30px>
+                    <img src=/img/logo2.png height=35px>
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -118,6 +118,7 @@
         <main class="py-4">
             @yield('content')
         </main>
+
     </div>
 
   <!-- Modal -->
@@ -139,6 +140,8 @@
       </div>
     </div>
   </div>
+
+  v1.0. Desarrollado por <a href=https://www.fernando.info>Fernando</a>.
   <!-- / Modal -->
 </body>
 </html>
