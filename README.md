@@ -1,10 +1,16 @@
 # Restaurant kitchen realtime ordering software
 
-Online web application developed in PHP using Laravel framework for managing real-time kitchen orders in a restaurant. It allows, through a web panel, real-time communication between chefs and waiters about the status of orders. Main features:
+Online web application developed in PHP using Laravel framework for managing real-time kitchen orders in a restaurant. 
+It allows, through a web panel, real-time communication between chefs and waiters about the status of orders. 
 
-System of registration and identification of restaurant workers.
-Three operational roles: Administrator: absolute control over registered worker accounts, active / deactivated account status and account type (administrator, waiter, chef). Waiter: operation on products and stock, taking orders and change of status “Annotate order -> Pending” or “Ready -> Delivered”. Chef: operation on change of order status Pending -> Ready and change of product status to “no stock”.
-Real-time notification system using websockets through pop-up windows to notify chefs about new orders or notify waiters when the order is ready in the kitchen.
+Main features:
+
+- System of registration and identification of restaurant workers.
+- Three operational roles: 
+Administrator: absolute control over registered worker accounts, active / deactivated account status and account type (administrator, waiter, chef). 
+Waiter: operation on products and stock, taking orders and change of status “Annotate order -> Pending” or “Ready -> Delivered”. 
+Chef: operation on change of order status Pending -> Ready and change of product status to “no stock”.
+- Real-time notification system using websockets through pop-up windows to notify chefs about new orders or notify waiters when the order is ready in the kitchen.
 
 ## Requirements
 
