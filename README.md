@@ -7,9 +7,9 @@ Main features:
 
 - System of registration and identification of restaurant workers.
 - Three operational roles: 
-Administrator: absolute control over registered worker accounts, active / deactivated account status and account type (administrator, waiter, chef). 
-Waiter: operation on products and stock, taking orders and change of status “Annotate order -> Pending” or “Ready -> Delivered”. 
-Chef: operation on change of order status Pending -> Ready and change of product status to “no stock”.
+- Administrator: absolute control over registered worker accounts, active / deactivated account status and account type (administrator, waiter, chef). 
+- Waiter: operation on products and stock, taking orders and change of status “Annotate order -> Pending” or “Ready -> Delivered”.
+- Chef: operation on change of order status Pending -> Ready and change of product status to “no stock”.
 - Real-time notification system using websockets through pop-up windows to notify chefs about new orders or notify waiters when the order is ready in the kitchen.
 
 ## Requirements
